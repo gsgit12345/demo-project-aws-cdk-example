@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 // Available at http://www.json.org/java/index.html
 import com.amazonaws.auth.PropertiesCredentials;
-import org.json.JSONObject;
+//import org.json.JSONObject;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClient;
@@ -28,7 +28,7 @@ public class ConstructUrl {
          * this example, the code looks for the credentials in a
          * standard configuration file.
          */
-        AWSCredentials credentials = new PropertiesCredentials(
+      /*  AWSCredentials credentials = new PropertiesCredentials(
                 AwsConsoleApp.class.getResourceAsStream("AwsCredentials.properties"));
 
         AWSSecurityTokenServiceClient stsClient = new AWSSecurityTokenServiceClient(credentials);
@@ -98,7 +98,7 @@ public class ConstructUrl {
 
         String destinationParameter = "&Destination=" + URLEncoder.encode(consoleURL, "UTF-8");
         String loginURL = signInURL + "?Action=login" +
-                signinTokenParameter + issuerParameter + destinationParameter;
+                signinTokenParameter + issuerParameter + destinationParameter;*/
     }
 }
 // snippet-end:[iam.java.ConstructUrlFederatedUsers.complete]

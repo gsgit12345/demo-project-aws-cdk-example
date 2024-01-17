@@ -1,1 +1,4 @@
 https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/java/example_code/iam/src/main/java/aws/example/iam/ListUsers.java
+
+
+https://copyprogramming.com/howto/how-to-use-iam-role-with-aws-java-sdk#how-to-use-iam-role-with-aws-java-sdk  --assumerole tutorial
