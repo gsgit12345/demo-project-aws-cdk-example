@@ -2,3 +2,11 @@ https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/java/example_code/iam/
 
 
 https://copyprogramming.com/howto/how-to-use-iam-role-with-aws-java-sdk#how-to-use-iam-role-with-aws-java-sdk  --assumerole tutorial
+1-create IAM user
+2-give few permission to this IAM user-P1,P2
+3-create one role which IAM user can access it -R1
+4-Create one policy which will allow IAM user to assume R1(role arn) role P3
+5-call assume role api to finally assume the role r1
+
+
+https://github.com/ekim197711/springboot-aws-credentialsproviders/tree/main/src/main  --credential provider tutorial

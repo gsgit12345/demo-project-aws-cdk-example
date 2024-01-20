@@ -1,0 +1,8 @@
+aws configure list
+$ aws configure list-profiles
+aws configure get region --profile integ
+--process to running assume role api
+
+aws iam create-user --user-name dev
+	aws iam create-access-key --user-name practice
+aws  lambda list-functions --region ap-south-1
