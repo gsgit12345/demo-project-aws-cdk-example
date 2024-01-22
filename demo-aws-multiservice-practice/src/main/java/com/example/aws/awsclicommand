@@ -6,3 +6,4 @@ aws configure get region --profile integ
 aws iam create-user --user-name dev
 	aws iam create-access-key --user-name practice
 aws  lambda list-functions --region ap-south-1
+[ec2-user@ip-172-31-8-57 ~]$ aws s3 cp demo-aws-multiservice-practice-0.0.1-SNAP

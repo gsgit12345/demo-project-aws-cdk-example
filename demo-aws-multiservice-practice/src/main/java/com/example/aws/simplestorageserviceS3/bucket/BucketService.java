@@ -10,6 +10,7 @@ import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,12 +30,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-@Service
+@Service("S3BucketService")
 @RequiredArgsConstructor
 @Slf4j
 
 public class BucketService {
     private final DemoConfig demoConfig;
+
+
 
     public S3Client gimmeClient(AwsCredentialsProvider provider) {
 
