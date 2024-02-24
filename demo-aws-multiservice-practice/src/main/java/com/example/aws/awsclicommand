@@ -1,5 +1,5 @@
 aws configure list
-$ aws configure list-profiles
+ aws configure list-profiles
 aws configure get region --profile integ
 --process to running assume role api
 
@@ -7,3 +7,5 @@ aws iam create-user --user-name dev
 	aws iam create-access-key --user-name practice
 aws  lambda list-functions --region ap-south-1
 [ec2-user@ip-172-31-8-57 ~]$ aws s3 cp demo-aws-multiservice-practice-0.0.1-SNAP
+
+aws iam update-access-key \ --access-key-id AKIAVSKYJNIZUP5573NM \ --status active \ --user-name Gs-delhi-123

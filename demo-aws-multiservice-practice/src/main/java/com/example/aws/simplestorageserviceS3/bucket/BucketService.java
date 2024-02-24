@@ -15,19 +15,35 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import software.amazon.awssdk.core.internal.sync.FileContentStreamProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.http.*;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.macie2.model.S3Bucket;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.file.Path;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 
 @Service("S3BucketService")
@@ -49,6 +65,110 @@ public class BucketService {
 
         return s3;
     }
+    public String createPresignedGetUrl(String bucketName, String keyName) {
+        try (S3Presigner presigner = S3Presigner.create()) {
+
+            GetObjectRequest objectRequest = GetObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(keyName)
+                    .build();
+
+            GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
+                    .signatureDuration(Duration.ofMinutes(10))  // The URL will expire in 10 minutes.
+                    .getObjectRequest(objectRequest)
+                    .build();
+
+            PresignedGetObjectRequest presignedRequest = presigner.presignGetObject(presignRequest);
+            log.info("Presigned URL: [{}]", presignedRequest.url().toString());
+            log.info("HTTP method: [{}]", presignedRequest.httpRequest().method());
+
+            return presignedRequest.url().toExternalForm();
+        }
+    }
+    public void useHttpUrlConnectionToPut(String presignedUrlString, File fileToPut, Map<String, String> metadata) {
+        log.info("Begin [{}] upload", fileToPut.toString());
+        try {
+            URL presignedUrl = new URL(presignedUrlString);
+            HttpURLConnection connection = (HttpURLConnection) presignedUrl.openConnection();
+            connection.setDoOutput(true);
+            metadata.forEach((k, v) -> connection.setRequestProperty("x-amz-meta-" + k, v));
+            connection.setRequestMethod("PUT");
+            OutputStream out = connection.getOutputStream();
+
+            try (RandomAccessFile file = new RandomAccessFile(fileToPut, "r");
+                 FileChannel inChannel = file.getChannel()) {
+                ByteBuffer buffer = ByteBuffer.allocate(8192); //Buffer size is 8k
+
+                while (inChannel.read(buffer) > 0) {
+                    buffer.flip();
+                    for (int i = 0; i < buffer.limit(); i++) {
+                        out.write(buffer.get());
+                    }
+                    buffer.clear();
+                }
+            } catch (IOException e) {
+                log.error(e.getMessage(), e);
+            }
+
+            out.close();
+            connection.getResponseCode();
+            log.info("HTTP response code is " + connection.getResponseCode());
+
+        } catch (S3Exception | IOException e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
+
+    public void useHttpClientToPut(String presignedUrlString, File fileToPut, Map<String, String> metadata) {
+        log.info("Begin [{}] upload", fileToPut.toString());
+
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder();
+        metadata.forEach((k, v) -> requestBuilder.header("x-amz-meta-" + k, v));
+
+        HttpClient httpClient = HttpClient.newHttpClient();
+        try {
+            final HttpResponse<Void> response = httpClient.send(requestBuilder
+                            .uri(new URL(presignedUrlString).toURI())
+                            .PUT(HttpRequest.BodyPublishers.ofFile(Path.of(fileToPut.toURI())))
+                            .build(),
+                    HttpResponse.BodyHandlers.discarding());
+
+            log.info("HTTP response code is " + response.statusCode());
+
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
+    public void useSdkHttpClientToPut(String presignedUrlString, File fileToPut, Map<String, String> metadata) {
+        log.info("Begin [{}] upload", fileToPut.toString());
+
+        try {
+            URL presignedUrl = new URL(presignedUrlString);
+
+            SdkHttpRequest.Builder requestBuilder = SdkHttpRequest.builder()
+                    .method(SdkHttpMethod.PUT)
+                    .uri(presignedUrl.toURI());
+            // Add headers
+            metadata.forEach((k, v) -> requestBuilder.putHeader("x-amz-meta-" + k, v));
+            // Finish building the request.
+            SdkHttpRequest request = requestBuilder.build();
+
+            HttpExecuteRequest executeRequest = HttpExecuteRequest.builder()
+                    .request(request)
+                    .contentStreamProvider(new FileContentStreamProvider(fileToPut.toPath()))
+                    .build();
+
+            try (SdkHttpClient sdkHttpClient = ApacheHttpClient.create()) {
+                HttpExecuteResponse response = sdkHttpClient.prepareRequest(executeRequest).call();
+                log.info("Response code: {}", response.httpResponse().statusCode());
+            }
+        } catch (URISyntaxException | IOException e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
 
     public void createBucket(AwsCredentialsProvider provider) throws IOException {
         S3Client s3 = gimmeClient(provider);

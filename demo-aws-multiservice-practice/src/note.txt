@@ -10,3 +10,11 @@ https://copyprogramming.com/howto/how-to-use-iam-role-with-aws-java-sdk#how-to-u
 
 
 https://github.com/ekim197711/springboot-aws-credentialsproviders/tree/main/src/main  --credential provider tutorial
+
+
+https://www.youtube.com/watch?v=vXB00u-BzHU&list=PLLeJtf87cXRvWqf1Wn2WLndyqtQ5BSHec&index=5
+
+https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javav2/example_code
+https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/setup-toolkit.html -- aws toolkit
+
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/example_s3_Scenario_PresignedUrl_section.html    --creating presigned url

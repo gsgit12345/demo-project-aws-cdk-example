@@ -1,26 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
-    <modules>
-        <module>demo-aws-multiservice-practice</module>
-        <module>demo-project-awsalb-loadbalancer</module>
-        <module>demo-aws-awselasticredis-example</module>
-        <module>demo-aws-route53-example</module>
-    </modules>
-
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.aws.demo</groupId>
+        <artifactId>demo-project-aws-cdk-example</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.aws.demo</groupId>
-    <artifactId>demo-project-aws-cdk-example</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>demo-project-aws-cdk-example</name>
-    <description>Demo project for Spring Boot</description>
+
+    <groupId>com.example.aws</groupId>
+    <artifactId>demo-aws-awselasticredis-example</artifactId>
+    <packaging>jar</packaging>
+
+    <name>demo-aws-awselasticredis-example</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <java.version>17</java.version>
@@ -57,15 +49,28 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>3.1.2</version>
+            <version>${sping.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>3.1.2</version>
+            <version>${sping.boot.version}</version>
 
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${sping.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${sping.boot.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>

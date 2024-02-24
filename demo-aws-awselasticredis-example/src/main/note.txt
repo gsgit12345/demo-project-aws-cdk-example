@@ -1,0 +1,8 @@
+https://github.com/sixthpoint/spring-boot-elasticache-redis-tutorial/blob/master/src/main/resources/application.properties
+
+https://keyholesoftware.com/using-amazon-elasticache-for-redis-to-optimize-your-spring-boot-application/
+https://blog.devgenius.io/aws-elastic-redis-cache-with-springboot-98c3ebcc6036
+
+https://www.youtube.com/watch?v=efyEna_oOIQ
+
+https://www.youtube.com/watch?v=Xaevi_V3bhQ
