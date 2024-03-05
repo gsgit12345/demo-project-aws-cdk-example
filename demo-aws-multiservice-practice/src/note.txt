@@ -18,3 +18,6 @@ https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javav2/example_code
 https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/setup-toolkit.html -- aws toolkit
 
 https://docs.aws.amazon.com/AmazonS3/latest/userguide/example_s3_Scenario_PresignedUrl_section.html    --creating presigned url
+
+
+https://plainenglish.io/blog/aws-lambda-testing-and-debugging-using-intellij-aws-sam-and-docker-f489f1d39b0d     --aws sam cli setup

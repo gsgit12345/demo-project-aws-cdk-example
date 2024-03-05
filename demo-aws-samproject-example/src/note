@@ -1,0 +1,8 @@
+https://plainenglish.io/blog/aws-lambda-testing-and-debugging-using-intellij-aws-sam-and-docker-f489f1d39b0d     --aws sam cli setup
+
+https://github.com/markusklems/aws-lambda-java-example/blob/master/LambdaApproval/src/lambda/LambdaApprovalFunctionHandler.java
+
+
+https://github.com/aws-samples/aws-sam-java-rest/blob/master/template.yaml       --server less example
+
+https://github.com/amazon-archives/serverless-app-examples/blob/master/python/s3-get-object-python3/lambda_function.py
