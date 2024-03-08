@@ -1,0 +1,9 @@
+https://docs.aws.amazon.com/cdk/v2/guide/cli.html
+https://docs.aws.amazon.com/cdk/v2/guide/work-with-cdk-java.html
+https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
+
+https://constructs.dev/search?q=&keywords=CodePipeline&langs=java&offset=0
+
+https://github.com/aws/aws-cdk/blob/main/packages/aws-cdk/lib/api/bootstrap/bootstrap-template.yaml
+
+https://cdkworkshop.com/50-java/70-advanced-topics/100-construct-testing/1000-assertion-test.html   --cdk testing framework

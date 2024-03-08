@@ -9,6 +9,7 @@
         <module>demo-aws-awselasticredis-example</module>
         <module>demo-aws-route53-example</module>
         <module>demo-aws-samproject-example</module>
+        <module>demo-aws-awscdk-demo</module>
     </modules>
 
     <parent>
